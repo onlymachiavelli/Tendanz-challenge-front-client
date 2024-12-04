@@ -1,16 +1,5 @@
 import axios from "axios"
 
-/*
-
-
-{
-  "first_name": "Alaa",
-  "last_name": "Barka",
-  "email": "mralaabarka@gmail.com",
-  "password": "helloworld!",
-  "phone": "54324884"
-}
-*/
 interface REGISTER {
   first_name: string
   last_name: string
