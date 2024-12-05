@@ -61,4 +61,20 @@ const verify = async (data: CODE, token: string) => {
   )
 }
 
-export { register, login, verify }
+const resendVerificationCode = async (token: string) => {
+  if (!token) {
+    throw new Error("Plese provide the token")
+  }
+
+  return await axios.put(
+    `${process.env.NEXT_PUBLIC_BACKEND}/client/verify`,
+    {},
+    {
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    }
+  )
+}
+
+export { register, login, verify, resendVerificationCode }
