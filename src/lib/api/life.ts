@@ -30,6 +30,21 @@ const createLifeContract = async (token: string, data: CREATELIFECONTRACT) => {
   )
 }
 
-export { createLifeContract }
+const getMyLifeContracts = async (token: string) => {
+  if (!token) {
+    throw new Error("Token is required")
+  }
+
+  return await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND}/contract/life/mine`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
+
+export { createLifeContract, getMyLifeContracts }
 
 export type { CREATELIFECONTRACT }

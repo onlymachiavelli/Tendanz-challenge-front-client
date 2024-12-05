@@ -1,6 +1,10 @@
 import { useState } from "react"
 
-import { CREATELIFECONTRACT, createLifeContract } from "@/lib/api/life"
+import {
+  CREATELIFECONTRACT,
+  createLifeContract,
+  getMyLifeContracts,
+} from "@/lib/api/life"
 import toast from "react-hot-toast"
 
 const useLife = () => {
@@ -54,10 +58,30 @@ const useLife = () => {
     }
   }
 
+  const [lifeContracts, setLifeContracts] = useState<any>([])
+  const getMines = async (token: string) => {
+    if (!token) {
+      throw new Error("Token is required")
+    }
+    try {
+      const response = await getMyLifeContracts(token)
+      if (response.status === 200) {
+        setLifeContracts(response.data?.contracts)
+      } else {
+        toast.error(response?.data?.message ?? "Failed to fetch life contracts")
+      }
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ?? "Failed to fetch life contracts"
+      )
+    }
+  }
   return {
     createLifePayload,
     handleLifePayload,
     createLife,
+    lifeContracts,
+    getMines,
   }
 }
 

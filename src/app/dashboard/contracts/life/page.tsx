@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { Layout } from "@/components/molecules"
 
-import { CreateLifeContract } from "@/components/organisms"
+import { CreateLifeContract, LifeList } from "@/components/organisms"
 
 import {
   Modal,
@@ -25,6 +25,9 @@ const Page = () => {
 
   return (
     <Layout>
+      <div className="w-3/4 m-auto pt-20 ">
+        <LifeList />
+      </div>
       <div className="fixed bottom-10 right-10">
         {}
 
