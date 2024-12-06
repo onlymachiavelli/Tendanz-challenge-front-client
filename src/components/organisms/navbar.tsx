@@ -11,8 +11,9 @@ import {
   Button,
   User,
 } from "@nextui-org/react"
-
+import { useSession } from "next-auth/react"
 const NavigationBar = () => {
+  const { data, status } = useSession()
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   return (
@@ -45,14 +46,18 @@ const NavigationBar = () => {
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
           <User
-            name="Junior Garcia"
+            name={
+              (data as any)?.user?.firstName +
+              " " +
+              (data as any)?.user?.lastName
+            }
             description={
-              <Link href="https://twitter.com/jrgarciadev" size="sm" isExternal>
-                @jrgarciadev
+              <Link href="https://tendanz.com" size="sm" isExternal>
+                @{(data as any)?.user?.email.split("@")[0]}
               </Link>
             }
             avatarProps={{
-              src: "https://avatars.githubusercontent.com/u/30373425?v=4",
+              src: "https://robohash.org/stefan-two",
             }}
           />
         </NavbarItem>

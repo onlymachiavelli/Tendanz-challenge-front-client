@@ -12,7 +12,14 @@ import {
   TableCell,
   Chip,
   Tooltip,
+  Dropdown,
+  DropdownTrigger,
+  Button,
+  DropdownMenu,
+  DropdownItem,
+  Link,
 } from "@nextui-org/react"
+import { CiCircleChevDown } from "react-icons/ci"
 
 const columns = [
   { name: "ID", uid: "id" },
@@ -24,6 +31,7 @@ const columns = [
   { name: "Beneficiary", uid: "benificiary_name" },
   { name: "Relationship", uid: "benificiary_relationship" },
   { name: "Status", uid: "status" },
+  { name: "Action", uid: "action" },
 ]
 
 const statusColorMap: any = {
@@ -33,7 +41,7 @@ const statusColorMap: any = {
 }
 
 const LifeList = () => {
-  const { lifeContracts, getMines } = useLife()
+  const { lifeContracts, getMines, deleteLife } = useLife()
   const { data, status } = useSession()
 
   useEffect(() => {
@@ -61,6 +69,63 @@ const LifeList = () => {
           <Tooltip content={`Relationship: ${item.benificiary_relationship}`}>
             {cellValue}
           </Tooltip>
+        )
+
+      case "action":
+        return (
+          <div className="relative flex justify-end items-center gap-2 z-[100]">
+            <Dropdown className="bg-white  border-1 border-default-200">
+              <DropdownTrigger>
+                <Button isIconOnly radius="full" size="sm" variant="light">
+                  <CiCircleChevDown size={20} />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu>
+                <DropdownItem
+                  style={{
+                    display: item.status === "approved" ? "block" : "none",
+                  }}
+                >
+                  <Button
+                    color="success"
+                    fullWidth
+                    className="text-white"
+                    as={Link}
+                    href={
+                      item.status === "approved"
+                        ? "/dashboard/contracts/life/" + item.id
+                        : "#"
+                    }
+                  >
+                    View and Download Contract
+                  </Button>
+                </DropdownItem>
+                <DropdownItem
+                  style={{
+                    display: item.status === "approved" ? "none" : "block",
+                  }}
+                >
+                  <Button color="warning" fullWidth className="text-white">
+                    Edit Contract
+                  </Button>
+                </DropdownItem>
+                <DropdownItem>
+                  <Button
+                    color="danger"
+                    fullWidth
+                    className="text-white"
+                    onClick={async () => {
+                      if ((data as any)?.token) {
+                        await deleteLife((data as any)?.token, item.id)
+                      }
+                    }}
+                  >
+                    Delete Contract
+                  </Button>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
         )
       default:
         return cellValue

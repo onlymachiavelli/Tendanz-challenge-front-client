@@ -45,6 +45,41 @@ const getMyLifeContracts = async (token: string) => {
   )
 }
 
-export { createLifeContract, getMyLifeContracts }
+const getOneLife = async (token: string, id: string) => {
+  if (!token) {
+    throw new Error("Token is required")
+  }
+
+  return await axios.get(
+    `${process.env.NEXT_PUBLIC_BACKEND}/contract/life/mine/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
+
+const deleteLifeContract = async (token: string, id: string) => {
+  if (!token) {
+    throw new Error("Token is required")
+  }
+
+  return await axios.delete(
+    `${process.env.NEXT_PUBLIC_BACKEND}/contract/life/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
+
+export {
+  createLifeContract,
+  getMyLifeContracts,
+  getOneLife,
+  deleteLifeContract,
+}
 
 export type { CREATELIFECONTRACT }

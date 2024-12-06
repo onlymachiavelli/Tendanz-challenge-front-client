@@ -4,6 +4,8 @@ import {
   CREATELIFECONTRACT,
   createLifeContract,
   getMyLifeContracts,
+  deleteLifeContract,
+  getOneLife,
 } from "@/lib/api/life"
 import toast from "react-hot-toast"
 
@@ -76,12 +78,54 @@ const useLife = () => {
       )
     }
   }
+
+  const [life, setLife] = useState<any>({})
+  const getOneLifeContract = async (token: string, id: string) => {
+    if (!token) {
+      throw new Error("Token is required")
+    }
+    try {
+      const response = await getOneLife(token, id)
+      if (response.status === 200) {
+        setLife(response.data?.contract)
+      } else {
+        toast.error(response?.data?.message ?? "Failed to fetch life contract")
+      }
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ?? "Failed to fetch life contract"
+      )
+    }
+  }
+
+  const deleteLife = async (token: string, id: string) => {
+    if (!token) {
+      throw new Error("Token is required")
+    }
+    try {
+      const response = await deleteLifeContract(token, id)
+      if (response.status === 200) {
+        toast.success("Life contract deleted successfully")
+        window.location.href = "/dashboard/contracts/life"
+      } else {
+        toast.error(response?.data?.message ?? "Failed to delete life contract")
+      }
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message ?? "Failed to delete life contract"
+      )
+    }
+  }
   return {
     createLifePayload,
     handleLifePayload,
     createLife,
     lifeContracts,
     getMines,
+
+    life,
+    getOneLifeContract,
+    deleteLife,
   }
 }
 
