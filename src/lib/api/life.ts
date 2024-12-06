@@ -14,6 +14,20 @@ interface CREATELIFECONTRACT {
   expiration_date: string
 }
 
+interface UPDATELIFECONTRACT {
+  face_amount: any
+
+  premium_amount: any
+
+  policy_term: any
+
+  benificiary_name: string
+
+  expiration_date: string
+
+  effective_date: string
+}
+
 const createLifeContract = async (token: string, data: CREATELIFECONTRACT) => {
   if (!token) {
     throw new Error("Token is required")
@@ -75,11 +89,32 @@ const deleteLifeContract = async (token: string, id: string) => {
   )
 }
 
+const updateLifeContract = async (
+  token: string,
+  id: string,
+  data: UPDATELIFECONTRACT
+) => {
+  if (!token) {
+    throw new Error("Token is required")
+  }
+
+  return await axios.patch(
+    `${process.env.NEXT_PUBLIC_BACKEND}/contract/life/${id}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+}
+
 export {
   createLifeContract,
   getMyLifeContracts,
   getOneLife,
   deleteLifeContract,
+  updateLifeContract,
 }
 
-export type { CREATELIFECONTRACT }
+export type { CREATELIFECONTRACT, UPDATELIFECONTRACT }

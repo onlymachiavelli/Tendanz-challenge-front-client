@@ -105,7 +105,13 @@ const LifeList = () => {
                     display: item.status === "approved" ? "none" : "block",
                   }}
                 >
-                  <Button color="warning" fullWidth className="text-white">
+                  <Button
+                    color="warning"
+                    fullWidth
+                    className="text-white"
+                    as={Link}
+                    href={"/dashboard/contracts/life/update/" + item.id}
+                  >
                     Edit Contract
                   </Button>
                 </DropdownItem>
