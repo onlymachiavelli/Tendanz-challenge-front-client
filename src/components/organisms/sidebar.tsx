@@ -11,6 +11,11 @@ const Sidebar = () => {
     if (status === "unauthenticated") {
       window.location.href = "/auth/login"
     }
+    if (status === "authenticated") {
+      if ((data as any).user.verified === false) {
+        window.location.href = "/auth/verify"
+      }
+    }
   }, [status, data])
 
   return (

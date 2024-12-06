@@ -5,10 +5,11 @@ import Link from "next/link"
 import { useClient } from "@/hooks"
 import { useSession } from "next-auth/react"
 import { IoReload } from "react-icons/io5"
+import { signOut } from "next-auth/react"
 
 const Page = () => {
   const { verifyAccount, resendCode, codePayload, setCodePayload } = useClient()
-  const { data, status } = useSession()
+  const { data, status, update } = useSession()
   useEffect(() => {
     if (status === "unauthenticated") {
       window.location.href = "/auth/login"
@@ -46,7 +47,9 @@ const Page = () => {
             onSubmit={async (e) => {
               e.preventDefault()
               if ((data as any)?.token) {
-                await verifyAccount((data as any)?.token)
+                await verifyAccount((data as any)?.token).then(() => {
+                  signOut()
+                })
               }
             }}
             method="post"
@@ -65,7 +68,9 @@ const Page = () => {
                 label="Received Code"
                 type="text"
                 value={codePayload.code}
-                onChange={(e) => {}}
+                onChange={(e) => {
+                  setCodePayload({ ...codePayload, code: e.target.value })
+                }}
               />
             </div>
             <div className="flex flex-row items-center justify-center  gap-3">

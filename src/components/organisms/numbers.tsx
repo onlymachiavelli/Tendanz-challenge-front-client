@@ -1,6 +1,17 @@
 "use client"
+import { useStat } from "@/hooks"
+import { useEffect } from "react"
+import { useSession } from "next-auth/react"
 
 const ShowNumbers = () => {
+  const { data, getStat } = useStat()
+  const { data: sessionData } = useSession()
+
+  useEffect(() => {
+    if ((sessionData as any)?.token) {
+      getStat((sessionData as any).token)
+    }
+  }, [sessionData, getStat])
   return (
     <>
       <main className="py-6 px-12 space-y-12 bg-gray-100 min-h-screen w-full">
@@ -88,7 +99,7 @@ const ShowNumbers = () => {
               <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
                 <div className="flex flex-col items-center space-y-2">
                   <div className="text-6xl font-bold tracking-tight leading-none text-blue-500">
-                    21
+                    {data?.accepted}
                   </div>
                   <div className="text-lg font-medium text-blue-500">
                     Signed Contracts
@@ -99,7 +110,7 @@ const ShowNumbers = () => {
               <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
                 <div className="flex flex-col items-center space-y-2">
                   <div className="text-6xl font-bold tracking-tight leading-none text-amber-500">
-                    17
+                    {data?.pending}
                   </div>
                   <div className="text-lg font-medium text-amber-600">
                     Pending Contracts
@@ -110,7 +121,7 @@ const ShowNumbers = () => {
               <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
                 <div className="flex flex-col items-center space-y-2">
                   <div className="text-6xl font-bold tracking-tight leading-none text-red-500">
-                    24
+                    {data?.rejected}
                   </div>
 
                   <div className="text-lg font-medium text-red-600">
@@ -122,92 +133,10 @@ const ShowNumbers = () => {
               <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
                 <div className="flex flex-col items-center space-y-2">
                   <div className="text-6xl font-bold tracking-tight leading-none text-primary-900">
-                    38
+                    {data?.total}
                   </div>
                   <div className="text-lg font-medium text-primary-900">
                     Total Contracts
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {}
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-              <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className="text-6xl font-bold tracking-tight leading-none text-blue-500">
-                    21
-                  </div>
-                  <div className="text-lg font-medium text-blue-500">
-                    Life Insurance Contracts
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className="text-6xl font-bold tracking-tight leading-none text-amber-500">
-                    17
-                  </div>
-                  <div className="text-lg font-medium text-amber-600">
-                    Health Insurance Contracts
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className="text-6xl font-bold tracking-tight leading-none text-red-500">
-                    24
-                  </div>
-
-                  <div className="text-lg font-medium text-red-600">
-                    Property Insurance Contracts
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className="text-6xl font-bold tracking-tight leading-none text-primary-900">
-                    38
-                  </div>
-                  <div className="text-lg font-medium text-primary-900">
-                    Auto Insurance Contracts
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className="text-6xl font-bold tracking-tight leading-none text-primary-900">
-                    38
-                  </div>
-                  <div className="text-lg font-medium text-primary-900">
-                    Liability Insurance Contracts
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className="text-6xl font-bold tracking-tight leading-none text-primary-900">
-                    38
-                  </div>
-                  <div className="text-lg font-medium text-primary-900">
-                    Marine Insurance Contracts
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
-                <div className="flex flex-col items-center space-y-2">
-                  <div className="text-6xl font-bold tracking-tight leading-none text-primary-900">
-                    38
-                  </div>
-                  <div className="text-lg font-medium text-primary-900">
-                    Travel Insurance Contracts
                   </div>
                 </div>
               </div>
