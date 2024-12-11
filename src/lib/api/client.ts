@@ -1,4 +1,5 @@
 import axios from "axios"
+import axiosInstance from "@/config/axios"
 
 interface REGISTER {
   first_name: string
@@ -26,10 +27,7 @@ const register = async (data: REGISTER) => {
     throw new Error("All fields are required")
   }
 
-  return await axios.post(
-    `${process.env.NEXT_PUBLIC_BACKEND}/client/register`,
-    data
-  )
+  return await axiosInstance.post(`/client/register`, data)
 }
 
 const login = async (data: LOGIN) => {

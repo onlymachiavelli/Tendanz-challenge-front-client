@@ -6,6 +6,7 @@ import {
 } from "@/lib/api/client"
 import { signIn } from "next-auth/react"
 import { toast } from "react-hot-toast"
+import axiosInstance from "@/config/axios"
 
 interface LOGINPAYLOAD {
   email: string
